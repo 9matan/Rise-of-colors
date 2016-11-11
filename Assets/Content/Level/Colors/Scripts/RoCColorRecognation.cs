@@ -73,6 +73,11 @@ namespace RoC
 		[SerializeField]
 		protected List<Position2D> _positions;
 
+		public RoCColorGroup(ERoCColor __color)
+		{
+			_color = __color;
+		}
+
 		public Position2D GetPosition(int index)
 		{
 			return _positions[index];
@@ -270,7 +275,7 @@ namespace RoC
 					{
 						var h = _dsu[i, j].pos.GetHashCode();
 						if (!_groups.ContainsKey(h))
-							_groups.Add(h, new RoCColorGroup());
+							_groups.Add(h, new RoCColorGroup(_dsu[i, j].color));
 						_groups[h].AddPosition(_dsu[i, j].pos);
 					}
 				}
