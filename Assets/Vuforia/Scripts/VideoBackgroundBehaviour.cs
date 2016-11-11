@@ -12,11 +12,19 @@ using UnityEngine;
 
 namespace Vuforia
 {
-    /// <summary>
-    /// The VideoBackgroundBehaviour class handles native video background rendering.
-    /// </summary>
-    [RequireComponent(typeof(Camera))]
-    public class VideoBackgroundBehaviour : VideoBackgroundAbstractBehaviour
-    {
-    }
+	/// <summary>
+	/// The VideoBackgroundBehaviour class handles native video background rendering.
+	/// </summary>
+	[RequireComponent(typeof(Camera))]
+	public class VideoBackgroundBehaviour : VideoBackgroundAbstractBehaviour
+	{
+
+
+		protected void Update()
+		{
+
+		}
+
+
+	}
 }

@@ -2,31 +2,35 @@
 using System.Collections;
 using RoC;
 using UniRx;
-using Vuforia;
 
 namespace RoC
 {
 
-
-	public struct RGB
+	public enum ERoCColor
 	{
-		public byte r;
-		public byte g;
-		public byte b;
+		RED,
+		GREEN,
+		BLUE
+	}
 
-		public RGB(byte __r, byte __g, byte __b)
+	[System.Serializable]
+	public class RoCColorGroup
+	{
+
+		public Vector2 centerPosition
 		{
-			r = __r;
-			g = __g;
-			b = __b;
+			get { return Vector2.zero; }
 		}
 
-		public RGB(Color32 color)
+		public int number
 		{
-			r = color.r;
-			g = color.g;
-			b = color.b;
+			get { return _number; }
 		}
+
+		[SerializeField]
+		protected ERoCColor _color;
+		[SerializeField]
+		protected int _number;
 
 	}
 
@@ -34,77 +38,14 @@ namespace RoC
 		IVOSBuilder
 	{
 
-		public new CameraDevice camera
+
+
+		public void Recognize()
 		{
-			get { return CameraDevice.Instance; }
+
 		}
 
-		public VuforiaBehaviour vuforia
-		{
-			get { return VuforiaBehaviour.Instance; }
-		}
 
-		public bool registeredFormat
-		{
-			get; protected set;
-		}
-
-		protected Image.PIXEL_FORMAT _pixelFormat;
-
-		public void Initialize()
-		{
-			vuforia.RegisterVuforiaStartedCallback(OnVuforiaStarted);
-		}
-
-		//
-		// < Vuforia >
-		//
-
-		public void OnVuforiaStarted()
-		{
-			_RegisterFormat();
-		}
-
-		protected void _UnregisterFormat()
-		{
-			Debug.Log("Unregistering camera pixel format " + _pixelFormat.ToString());
-			camera.SetFrameFormat(_pixelFormat, false);
-			registeredFormat = false;
-		}
-
-		protected bool _RegisterFormat()
-		{
-			if (CameraDevice.Instance.SetFrameFormat(_pixelFormat, true))
-			{
-				Debug.Log("Successfully registered camera pixel format " + _pixelFormat.ToString());
-				registeredFormat = true;
-			}
-			else
-			{
-				Debug.LogError("Failed to register camera pixel format " + _pixelFormat.ToString());
-				registeredFormat = false;
-			}
-
-			return registeredFormat;
-		}
-
-		protected void OnPouse(bool paused)
-		{
-			if (paused)
-			{
-				Log("App was paused");
-				_UnregisterFormat();
-			}
-			else
-			{
-				Log("App was resumed");
-				_RegisterFormat();
-			}
-		}
-
-		//
-		// < Vuforia >
-		//
 
 		[ContextMenu("Build")]
 		public void Build()
@@ -128,7 +69,6 @@ namespace RoC
 		//
 		// </ Debug >
 		//
-
 	}
 
 }
