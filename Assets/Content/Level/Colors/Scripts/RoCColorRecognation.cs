@@ -44,19 +44,67 @@ namespace RoC
 			get { return VuforiaBehaviour.Instance; }
 		}
 
+		public bool registeredFormat
+		{
+			get; protected set;
+		}
+
+		protected Image.PIXEL_FORMAT _pixelFormat;
 
 		public void Initialize()
 		{
 			vuforia.RegisterVuforiaStartedCallback(OnVuforiaStarted);
 		}
 
+		//
+		// < Vuforia >
+		//
+
 		public void OnVuforiaStarted()
 		{
-			if (camera.SetFrameFormat(Image.PIXEL_FORMAT.RGB888, true))
-			{
+			_RegisterFormat();
+		}
 
+		protected void _UnregisterFormat()
+		{
+			Debug.Log("Unregistering camera pixel format " + _pixelFormat.ToString());
+			camera.SetFrameFormat(_pixelFormat, false);
+			registeredFormat = false;
+		}
+
+		protected bool _RegisterFormat()
+		{
+			if (CameraDevice.Instance.SetFrameFormat(_pixelFormat, true))
+			{
+				Debug.Log("Successfully registered camera pixel format " + _pixelFormat.ToString());
+				registeredFormat = true;
+			}
+			else
+			{
+				Debug.LogError("Failed to register camera pixel format " + _pixelFormat.ToString());
+				registeredFormat = false;
+			}
+
+			return registeredFormat;
+		}
+
+		protected void OnPouse(bool paused)
+		{
+			if (paused)
+			{
+				Log("App was paused");
+				_UnregisterFormat();
+			}
+			else
+			{
+				Log("App was resumed");
+				_RegisterFormat();
 			}
 		}
+
+		//
+		// < Vuforia >
+		//
 
 		[ContextMenu("Build")]
 		public void Build()
