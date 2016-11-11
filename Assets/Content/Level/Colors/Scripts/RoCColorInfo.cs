@@ -6,10 +6,19 @@ using UniRx;
 namespace RoC
 {
 
-
+	[CreateAssetMenu(menuName = "RiseOfColors/Color/Info")]
 	public class RoCColorInfo : ScriptableObject
 	{
 
+		public ERoCColor color
+		{
+			get { return _color; }
+		}
+
+		public RGB centerColor
+		{
+			get { return _centerColor; }
+		}
 
 		[SerializeField]
 		protected ERoCColor _color;
@@ -20,12 +29,12 @@ namespace RoC
 
 		public bool IsValidColor(RGB color)
 		{
-			return true;
+			return _centerColor.Delta(color) <= _delta;
 		}
 
 		public bool IsValidColor(Color32 color)
 		{
-			return true;
+			return _centerColor.Delta(new RGB(color)) <= _delta;
 		}
 
 	}
