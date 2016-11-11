@@ -2,6 +2,7 @@
 using System.Collections;
 using RoC;
 using UniRx;
+using Vuforia;
 
 namespace RoC
 {
@@ -33,12 +34,53 @@ namespace RoC
 		IVOSBuilder
 	{
 
-	
+		public new CameraDevice camera
+		{
+			get { return CameraDevice.Instance; }
+		}
+
+		public VuforiaBehaviour vuforia
+		{
+			get { return VuforiaBehaviour.Instance; }
+		}
+
+
+		public void Initialize()
+		{
+			vuforia.RegisterVuforiaStartedCallback(OnVuforiaStarted);
+		}
+
+		public void OnVuforiaStarted()
+		{
+			if (camera.SetFrameFormat(Image.PIXEL_FORMAT.RGB888, true))
+			{
+
+			}
+		}
+
 		[ContextMenu("Build")]
 		public void Build()
 		{
-		
-		}		
+
+		}
+
+
+		//
+		// < Debug >
+		//
+
+		public bool debug = false;
+
+		public void Log(object mess)
+		{
+			if (debug)
+				Debug.Log(mess);
+		}
+
+		//
+		// </ Debug >
+		//
+
 	}
-	
+
 }
