@@ -26,14 +26,8 @@ public class CameraAccess : MonoBehaviour
     VuforiaBehaviour.Instance.RegisterVuforiaStartedCallback( OnVuforiaStarted );
     VuforiaBehaviour.Instance.RegisterOnPauseCallback( OnPause );
     VuforiaBehaviour.Instance.RegisterTrackablesUpdatedCallback( OnTrackablesUpdated );
-    Invoke( "asd", 0.1f );
   }
 
-  private void asd()
-  {
-    go = GameObject.Find( "TextureBufferMesh" );
-    Debug.Log( go!=null );
-  }
   /// <summary>
   /// Called when Vuforia is started
   /// </summary>
